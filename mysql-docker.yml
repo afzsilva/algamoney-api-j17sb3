@@ -1,0 +1,12 @@
+version: "3"
+services:
+  mysqldb:
+    container_name: meu_mysqldb
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=test
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - /home/afzs/mysql_bkp:/var/lib/mysql
