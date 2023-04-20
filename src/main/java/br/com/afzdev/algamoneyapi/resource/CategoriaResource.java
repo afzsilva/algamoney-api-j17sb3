@@ -1,4 +1,4 @@
-package br.com.afzdev.algamoneyapi.model.resource;
+package br.com.afzdev.algamoneyapi.resource;
 
 import br.com.afzdev.algamoneyapi.model.Categoria;
 import br.com.afzdev.algamoneyapi.services.CategoriaService;
