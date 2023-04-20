@@ -24,6 +24,6 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     @Override
     public Categoria buscar(Long codigo) {
-        return repository.findById(codigo).get();
+        return repository.findById(codigo).orElse(null);
     }
 }
