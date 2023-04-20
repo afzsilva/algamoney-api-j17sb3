@@ -16,4 +16,14 @@ public class CategoriaServiceImpl implements CategoriaService{
     public List<Categoria> listar() {
         return repository.findAll();
     }
+
+    @Override
+    public Categoria criar(Categoria categoria) {
+        return repository.save(categoria);
+    }
+
+    @Override
+    public Categoria buscar(Long codigo) {
+        return repository.findById(codigo).get();
+    }
 }

@@ -7,4 +7,8 @@ import java.util.List;
 public interface CategoriaService {
 
     List<Categoria> listar();
+
+    Categoria criar(Categoria categoria);
+
+    Categoria buscar(Long codigo);
 }
