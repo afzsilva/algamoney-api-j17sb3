@@ -27,4 +27,9 @@ public class PessoaServiceImpl implements PessoaService{
     public Pessoa criarPessoa(Pessoa pessoa) {
         return repository.save(pessoa);
     }
+
+ /*   @Override
+    public void deletar(Long codigo) {
+        repository.deleteById(codigo);
+    }*/
 }

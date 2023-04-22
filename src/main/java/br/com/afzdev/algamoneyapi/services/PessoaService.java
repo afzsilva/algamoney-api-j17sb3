@@ -11,4 +11,6 @@ public interface PessoaService {
     List<Pessoa> listar();
 
     Pessoa criarPessoa(Pessoa pessoa);
+
+    //void deletar(Long codigo);
 }
