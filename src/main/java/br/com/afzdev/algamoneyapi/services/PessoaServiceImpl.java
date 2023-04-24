@@ -28,8 +28,8 @@ public class PessoaServiceImpl implements PessoaService{
         return repository.save(pessoa);
     }
 
- /*   @Override
+    @Override
     public void deletar(Long codigo) {
         repository.deleteById(codigo);
-    }*/
+    }
 }

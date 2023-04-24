@@ -41,9 +41,16 @@ public class PessoaResource {
     }
 
 
-   /* @DeleteMapping("/{codigo}")
+    @DeleteMapping("/{codigo}")
     public ResponseEntity<Void> remover(@PathVariable Long codigo){
-        service.deletar(codigo);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }*/
+        try {
+            service.deletar(codigo);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+
 }

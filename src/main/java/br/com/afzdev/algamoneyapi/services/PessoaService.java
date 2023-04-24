@@ -12,5 +12,5 @@ public interface PessoaService {
 
     Pessoa criarPessoa(Pessoa pessoa);
 
-    //void deletar(Long codigo);
+    void deletar(Long codigo);
 }
