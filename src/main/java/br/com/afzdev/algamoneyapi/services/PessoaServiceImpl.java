@@ -2,10 +2,14 @@ package br.com.afzdev.algamoneyapi.services;
 
 import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
+import org.hibernate.collection.spi.PersistentSortedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PessoaServiceImpl implements PessoaService{
@@ -15,7 +19,7 @@ public class PessoaServiceImpl implements PessoaService{
 
     @Override
     public Pessoa buscarPorCodigo(Long codigo) {
-        return repository.findById(codigo).orElse(null);
+        return repository.findById(codigo).get(); //.orElseThrow(()->new RuntimeException("Pessoa não foi encontrada"));
     }
 
     @Override
@@ -32,4 +36,20 @@ public class PessoaServiceImpl implements PessoaService{
     public void deletar(Long codigo) {
         repository.deleteById(codigo);
     }
+
+    @Override
+    public Pessoa atualizar(Long codigo, Pessoa pessoa) {
+        Optional<Pessoa> p = repository.findById(codigo);
+
+        if (p.isEmpty()){
+            throw new NoSuchElementException("Pessoa não localizada");
+        }
+
+        p.get().setCodigo(codigo);
+        p.get().setEndereco(pessoa.getEndereco());
+        p.get().setAtivo(pessoa.isAtivo());
+        Pessoa ps = repository.save(p.get());
+        return ps;
+    }
+
 }
