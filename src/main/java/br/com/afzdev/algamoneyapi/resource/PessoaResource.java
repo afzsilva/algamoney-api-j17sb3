@@ -58,4 +58,10 @@ public class PessoaResource {
         return ResponseEntity.ok(ps);
     }
 
+    @PutMapping("/{codigo}/ativo")
+    public ResponseEntity<Pessoa> atualizarStatus(@PathVariable Long codigo, @Valid @RequestBody boolean ativo){
+        Pessoa p = service.atualizarStatus(codigo,ativo);
+        return ResponseEntity.ok(p);
+    }
+
 }

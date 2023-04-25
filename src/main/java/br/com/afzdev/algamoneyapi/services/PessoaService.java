@@ -21,4 +21,7 @@ public interface PessoaService {
 
     @Transactional
     Pessoa atualizar(Long codigo, Pessoa pessoa);
+
+    @Transactional
+    Pessoa atualizarStatus(Long codigo, boolean ativo);
 }

@@ -52,4 +52,18 @@ public class PessoaServiceImpl implements PessoaService{
         return ps;
     }
 
+    @Override
+    public Pessoa atualizarStatus(Long codigo, boolean ativo) {
+
+        Optional<Pessoa> p = repository.findById(codigo);
+
+        if (p.isEmpty()){
+            throw new NoSuchElementException("Pessoa não localizada");
+        }
+        p.get().setCodigo(codigo);
+        p.get().setAtivo(ativo);
+
+        return p.get();
+    }
+
 }

@@ -29,7 +29,7 @@ public class AlagamoneyExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String mensagemUsuario = messageSource.getMessage("mensagem.invalida",null, LocaleContextHolder.getLocale());
-        String mensagemDesenvolvedor = ex.getCause().toString();
+        String mensagemDesenvolvedor = ex.getCause() != null? ex.getCause().toString() : ex.toString();
         List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,headers, HttpStatus.BAD_REQUEST, request);
     }
@@ -44,7 +44,7 @@ public class AlagamoneyExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NoSuchElementException.class})
     public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex, WebRequest request){
         String mensagemUsuario = messageSource.getMessage("recurso.nao-encontrado",null, LocaleContextHolder.getLocale());
-        String mensagemDesenvolvedor = ex.toString();
+        String mensagemDesenvolvedor = ex.getCause() != null? ex.getCause().toString() : ex.toString();
         List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
