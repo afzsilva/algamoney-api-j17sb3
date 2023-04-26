@@ -1,7 +1,8 @@
 package br.com.afzdev.algamoneyapi.services;
 
 import br.com.afzdev.algamoneyapi.model.Pessoa;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+;
 
 import java.util.List;
 
