@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,14 @@ public class AlagamoneyExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+    public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida",null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.getCause() != null? ex.getCause().toString() : ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 
     private List<Erro> criarListaDeErros(BindingResult bindingResult){
         List<Erro> erros = new ArrayList<>();
