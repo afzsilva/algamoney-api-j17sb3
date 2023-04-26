@@ -23,6 +23,9 @@ public class Lancamento {
     private Long id;
 
     @NotNull
+    private String descricao;
+
+    @NotNull
     @Column(name = "data_vencimento")
     private LocalDate dataVencimento;
 
@@ -39,10 +42,12 @@ public class Lancamento {
     @NotNull
     private String observacao;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
     private Pessoa pessoa;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "codigo_categoria")
     private Categoria categoria;
