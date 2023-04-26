@@ -1,5 +1,6 @@
 package br.com.afzdev.algamoneyapi.exceptionhandler;
 
+import br.com.afzdev.algamoneyapi.services.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -57,6 +58,15 @@ public class AlagamoneyExceptionHandler extends ResponseEntityExceptionHandler {
         String mensagemDesenvolvedor = ex.getCause() != null? ex.getCause().toString() : ex.toString();
         List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler({PessoaInexistenteOuInativaException.class})
+    public ResponseEntity<Object> handlePessoaInexistenteOuInativaException(PessoaInexistenteOuInativaException ex, WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("pessoa.inexistente-ou-inativa",null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ex.getCause() != null? ex.getCause().toString() : ex.toString();
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+
     }
 
     private List<Erro> criarListaDeErros(BindingResult bindingResult){

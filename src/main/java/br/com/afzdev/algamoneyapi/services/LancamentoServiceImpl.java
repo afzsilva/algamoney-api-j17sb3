@@ -1,7 +1,10 @@
 package br.com.afzdev.algamoneyapi.services;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
+import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.repositories.LancamentoRepository;
+import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
+import br.com.afzdev.algamoneyapi.services.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,10 @@ public class LancamentoServiceImpl implements LancamentoService{
 
     @Autowired
     LancamentoRepository repository;
+
+    @Autowired
+    PessoaRepository pessoaRepository;
+
 
     @Override
     public List<Lancamento> listar() {
@@ -33,6 +40,13 @@ public class LancamentoServiceImpl implements LancamentoService{
 
     @Override
     public Lancamento salvarLancamento(Lancamento lancamento) {
+
+        Optional<Pessoa> p = pessoaRepository.findById(lancamento.getPessoa().getCodigo());
+
+        if (p.isPresent() && !p.get().isAtivo()){
+            throw new PessoaInexistenteOuInativaException();
+        }
+
         return repository.save(lancamento);
     }
 
