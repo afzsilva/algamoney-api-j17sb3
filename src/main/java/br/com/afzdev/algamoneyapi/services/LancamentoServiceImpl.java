@@ -31,5 +31,10 @@ public class LancamentoServiceImpl implements LancamentoService{
         return opt.get();
     }
 
+    @Override
+    public Lancamento salvarLancamento(Lancamento lancamento) {
+        return repository.save(lancamento);
+    }
+
 
 }

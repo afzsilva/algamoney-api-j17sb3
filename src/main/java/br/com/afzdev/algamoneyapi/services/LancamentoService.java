@@ -7,9 +7,12 @@ import java.util.List;
 
 public interface LancamentoService {
 
-    @Transactional
+    @Transactional(readOnly = true)
     List<Lancamento> listar();
 
-    @Transactional
+    @Transactional(readOnly = true)
     Lancamento buscarLancamentoPorId(Long id);
+
+    Lancamento salvarLancamento(Lancamento lancamento);
+
 }
