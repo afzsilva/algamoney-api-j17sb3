@@ -19,7 +19,7 @@ public class PessoaServiceImpl implements PessoaService{
 
     @Override
     public Pessoa buscarPorCodigo(Long codigo) {
-        return repository.findById(codigo).get(); //.orElseThrow(()->new RuntimeException("Pessoa não foi encontrada"));
+        return repository.findById(codigo).get();
     }
 
     @Override
@@ -34,6 +34,13 @@ public class PessoaServiceImpl implements PessoaService{
 
     @Override
     public void deletar(Long codigo) {
+
+        Optional<Pessoa> p = repository.findById(codigo);
+
+        if (p.isEmpty()){
+            throw new NoSuchElementException("Pessoa não localizada");
+        }
+
         repository.deleteById(codigo);
     }
 

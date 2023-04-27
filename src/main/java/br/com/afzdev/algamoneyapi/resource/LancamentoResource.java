@@ -1,10 +1,12 @@
 package br.com.afzdev.algamoneyapi.resource;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
+import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.LancamentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ public class LancamentoResource {
     LancamentoService service;
 
     @GetMapping
-    public ResponseEntity<List<Lancamento>> listar(){
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<List<Lancamento>> pesquisar(LancamentoFilter filter){
+        return ResponseEntity.ok(service.filtrar(filter));
     }
 
     @GetMapping("/{id}")
@@ -31,6 +33,12 @@ public class LancamentoResource {
     public ResponseEntity<Lancamento> salvar(@Valid @RequestBody Lancamento lancamento){
         Lancamento lancamentoSalvo = service.salvarLancamento(lancamento);
         return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Lancamento> delete(@PathVariable Long id){
+        service.deletePorId(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

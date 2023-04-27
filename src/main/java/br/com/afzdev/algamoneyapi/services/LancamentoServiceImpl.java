@@ -4,6 +4,7 @@ import br.com.afzdev.algamoneyapi.model.Lancamento;
 import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.repositories.LancamentoRepository;
 import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
+import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class LancamentoServiceImpl implements LancamentoService{
     }
 
     @Override
+    public List<Lancamento> filtrar(LancamentoFilter filter) {
+        return repository.filtrar(filter);
+    }
+
+    @Override
     public Lancamento buscarLancamentoPorId(Long id) {
         Optional<Lancamento> opt = repository.findById(id);
 
@@ -48,6 +54,17 @@ public class LancamentoServiceImpl implements LancamentoService{
         }
 
         return repository.save(lancamento);
+    }
+
+    @Override
+    public void deletePorId(Long id) {
+        Optional<Lancamento> lancamento = repository.findById(id);
+
+        if (lancamento.isEmpty()){
+            throw new NoSuchElementException("lancamento não localizado");
+        }
+
+        repository.deleteById(id);
     }
 
 
