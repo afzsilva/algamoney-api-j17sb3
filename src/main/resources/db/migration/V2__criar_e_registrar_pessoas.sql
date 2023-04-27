@@ -21,3 +21,16 @@ INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, c
 VALUES ('Lucas Ferreira', true, 'Rua dos Girassóis', 789, '', 'Centro', '76543-210', 'Belo Horizonte', 'MG');
 INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
 VALUES ('André Oliveira', true, 'Rua das Acácias', 1010, '', 'Jardim Europa', '02345-678', 'São Paulo', 'SP');
+INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
+VALUES ('Pedro Barbosa', true, 'Rua dos Campos', 123, null, 'Centro', '12345-678', 'São Paulo', 'SP');
+INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
+VALUES ('Henrique Medeiros', true, 'Rua das Flores', 456, 'Sala 102', 'Jardins', '54321-876', 'Rio de Janeiro', 'RJ');
+
+INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
+VALUES ('Carlos Santana', true, 'Avenida das Américas', 789, null, 'Barra da Tijuca', '87654-321', 'Rio de Janeiro', 'RJ');
+
+INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
+VALUES ('Leonardo Oliveira', true, 'Rua dos Girassóis', 456, 'Apto. 304', 'Jardim Botânico', '34567-890', 'Brasília', 'DF');
+
+INSERT INTO pessoa (nome, ativo, logradouro, numero, complemento, bairro, cep, cidade, estado)
+VALUES ('Isabela Martins', true, 'Rua das Acácias', 567, null, 'Parque Industrial', '98765-432', 'São José dos Campos', 'SP');
