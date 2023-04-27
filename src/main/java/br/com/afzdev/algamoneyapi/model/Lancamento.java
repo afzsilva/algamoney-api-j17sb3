@@ -39,7 +39,7 @@ public class Lancamento {
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
-    @NotNull
+
     private String observacao;
 
     @NotNull
