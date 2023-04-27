@@ -7,6 +7,8 @@ import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.exception.PessoaInexistenteOuInativaException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +31,8 @@ public class LancamentoServiceImpl implements LancamentoService{
     }
 
     @Override
-    public List<Lancamento> filtrar(LancamentoFilter filter) {
-        return repository.filtrar(filter);
+    public Page<Lancamento> filtrar(LancamentoFilter filter, Pageable pageable) {
+        return repository.filtrar(filter, pageable);
     }
 
     @Override
