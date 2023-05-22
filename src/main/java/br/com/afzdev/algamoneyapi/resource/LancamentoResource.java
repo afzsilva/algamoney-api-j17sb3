@@ -3,7 +3,7 @@ package br.com.afzdev.algamoneyapi.resource;
 import br.com.afzdev.algamoneyapi.model.Lancamento;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.LancamentoService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

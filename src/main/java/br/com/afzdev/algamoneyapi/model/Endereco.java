@@ -1,6 +1,6 @@
 package br.com.afzdev.algamoneyapi.model;
 
-import jakarta.persistence.Embeddable;
+import javax.persistence.Embeddable;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
