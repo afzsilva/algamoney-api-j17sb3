@@ -1,6 +1,7 @@
 package br.com.afzdev.algamoneyapi.resource;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
+import br.com.afzdev.algamoneyapi.projection.ResumoLancamento;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.LancamentoService;
 import javax.validation.Valid;
@@ -26,6 +27,12 @@ public class LancamentoResource {
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LACAMENTO') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable){
         return ResponseEntity.ok(service.filtrar(filter, pageable));
+    }
+
+    @GetMapping(params = "resumo")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
+    public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+        return service.resumir(lancamentoFilter, pageable);
     }
 
     @GetMapping("/{id}")

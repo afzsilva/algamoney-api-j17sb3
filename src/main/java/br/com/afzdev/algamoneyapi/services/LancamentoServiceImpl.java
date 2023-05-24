@@ -2,6 +2,7 @@ package br.com.afzdev.algamoneyapi.services;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
 import br.com.afzdev.algamoneyapi.model.Pessoa;
+import br.com.afzdev.algamoneyapi.projection.ResumoLancamento;
 import br.com.afzdev.algamoneyapi.repositories.LancamentoRepository;
 import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
@@ -33,6 +34,11 @@ public class LancamentoServiceImpl implements LancamentoService{
     @Override
     public Page<Lancamento> filtrar(LancamentoFilter filter, Pageable pageable) {
         return repository.filtrar(filter, pageable);
+    }
+
+    @Override
+    public Page<ResumoLancamento> resumir(LancamentoFilter filter, Pageable pageable) {
+        return repository.resumir(filter, pageable);
     }
 
     @Override
