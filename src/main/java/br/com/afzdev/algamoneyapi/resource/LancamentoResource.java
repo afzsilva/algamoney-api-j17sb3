@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,22 +23,26 @@ public class LancamentoResource {
     LancamentoService service;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LACAMENTO') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable){
         return ResponseEntity.ok(service.filtrar(filter, pageable));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LACAMENTO') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Lancamento> buscarPorId(@PathVariable("id") Long id){
         return ResponseEntity.ok(service.buscarLancamentoPorId(id));
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LACAMENTO') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> salvar(@Valid @RequestBody Lancamento lancamento){
         Lancamento lancamentoSalvo = service.salvarLancamento(lancamento);
         return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_LACAMENTO') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> delete(@PathVariable Long id){
         service.deletePorId(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

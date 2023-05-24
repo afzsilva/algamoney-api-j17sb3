@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,16 +25,19 @@ public class PessoaResource {
     private ApplicationEventPublisher publisher;
 
     @GetMapping(value = "/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Pessoa> buscarPessoa(@PathVariable("codigo") Long codigo){
         return ResponseEntity.ok(service.buscarPorCodigo(codigo));
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
     public ResponseEntity<List<Pessoa>> listarPessoas(){
         return ResponseEntity.ok(service.listar());
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Pessoa> salvarPessoa(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response){
         Pessoa pessoaSalva = service.criarPessoa(pessoa);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
@@ -42,6 +46,7 @@ public class PessoaResource {
 
 
     @DeleteMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Void> remover(@PathVariable Long codigo){
             service.deletar(codigo);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -49,12 +54,14 @@ public class PessoaResource {
     }
 
     @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa){
         Pessoa ps = service.atualizar(codigo, pessoa);
         return ResponseEntity.ok(ps);
     }
 
     @PutMapping("/{codigo}/ativo")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Pessoa> atualizarStatus(@PathVariable Long codigo, @Valid @RequestBody boolean ativo){
         Pessoa p = service.atualizarStatus(codigo,ativo);
         return ResponseEntity.ok(p);
