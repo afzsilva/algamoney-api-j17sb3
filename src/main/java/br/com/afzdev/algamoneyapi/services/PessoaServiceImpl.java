@@ -3,6 +3,8 @@ package br.com.afzdev.algamoneyapi.services;
 import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.repositories.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,6 +71,11 @@ public class PessoaServiceImpl implements PessoaService{
         p.get().setAtivo(ativo);
 
         return p.get();
+    }
+
+    @Override
+    public Page<Pessoa> findByNomeContaining(String nome, Pageable pageable) {
+        return repository.findByNomeContaining(nome, pageable);
     }
 
 }

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,17 +26,6 @@ public class PessoaResource {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @GetMapping(value = "/{codigo}")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
-    public ResponseEntity<Pessoa> buscarPessoa(@PathVariable("codigo") Long codigo){
-        return ResponseEntity.ok(service.buscarPorCodigo(codigo));
-    }
-
-    @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
-    public ResponseEntity<List<Pessoa>> listarPessoas(){
-        return ResponseEntity.ok(service.listar());
-    }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and hasAuthority('SCOPE_write')")
@@ -44,13 +35,17 @@ public class PessoaResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
     }
 
+    @GetMapping(value = "/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
+    public ResponseEntity<Pessoa> buscarPessoa(@PathVariable("codigo") Long codigo){
+        return ResponseEntity.ok(service.buscarPorCodigo(codigo));
+    }
 
     @DeleteMapping("/{codigo}")
     @PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Void> remover(@PathVariable Long codigo){
             service.deletar(codigo);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
     @PutMapping("/{codigo}")
@@ -65,6 +60,18 @@ public class PessoaResource {
     public ResponseEntity<Pessoa> atualizarStatus(@PathVariable Long codigo, @Valid @RequestBody boolean ativo){
         Pessoa p = service.atualizarStatus(codigo,ativo);
         return ResponseEntity.ok(p);
+    }
+
+    @GetMapping("/listar")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_read')")
+    public ResponseEntity<List<Pessoa>> listarPessoas(){
+        return ResponseEntity.ok(service.listar());
+    }
+
+    @GetMapping(params = "nome")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA')")
+    public Page<Pessoa> pesquisar(@RequestParam(required = false, defaultValue = "") String nome, Pageable pageable) {
+        return service.findByNomeContaining(nome, pageable);
     }
 
 }
