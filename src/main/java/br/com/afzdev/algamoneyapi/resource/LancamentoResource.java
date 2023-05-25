@@ -1,6 +1,7 @@
 package br.com.afzdev.algamoneyapi.resource;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
+import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.projection.ResumoLancamento;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import br.com.afzdev.algamoneyapi.services.LancamentoService;
@@ -24,7 +25,7 @@ public class LancamentoResource {
     LancamentoService service;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LACAMENTO') and hasAuthority('SCOPE_read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Page<Lancamento>> pesquisar(LancamentoFilter filter, Pageable pageable){
         return ResponseEntity.ok(service.filtrar(filter, pageable));
     }
@@ -36,23 +37,30 @@ public class LancamentoResource {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LACAMENTO') and hasAuthority('SCOPE_read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_read')")
     public ResponseEntity<Lancamento> buscarPorId(@PathVariable("id") Long id){
         return ResponseEntity.ok(service.buscarLancamentoPorId(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LACAMENTO') and hasAuthority('SCOPE_write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> salvar(@Valid @RequestBody Lancamento lancamento){
         Lancamento lancamentoSalvo = service.salvarLancamento(lancamento);
         return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_REMOVER_LACAMENTO') and hasAuthority('SCOPE_write')")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and hasAuthority('SCOPE_write')")
     public ResponseEntity<Lancamento> delete(@PathVariable Long id){
         service.deletePorId(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
+    public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamento lancamento){
+        Lancamento ps = service.atualizar(codigo, lancamento);
+        return ResponseEntity.ok(ps);
     }
 
 }

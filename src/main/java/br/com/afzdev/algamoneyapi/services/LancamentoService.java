@@ -1,6 +1,7 @@
 package br.com.afzdev.algamoneyapi.services;
 
 import br.com.afzdev.algamoneyapi.model.Lancamento;
+import br.com.afzdev.algamoneyapi.model.Pessoa;
 import br.com.afzdev.algamoneyapi.projection.ResumoLancamento;
 import br.com.afzdev.algamoneyapi.repositories.filter.LancamentoFilter;
 import org.springframework.data.domain.Page;
@@ -29,4 +30,6 @@ public interface LancamentoService {
     @Transactional
     void deletePorId(Long id);
 
+    @Transactional(readOnly = false)
+    Lancamento atualizar(Long codigo, Lancamento lancamento);
 }

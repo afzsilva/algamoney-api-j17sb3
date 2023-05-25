@@ -75,5 +75,41 @@ public class LancamentoServiceImpl implements LancamentoService{
         repository.deleteById(id);
     }
 
+    @Override
+    public Lancamento atualizar(Long codigo, Lancamento lancamento) {
+        //1 - encontra lançamento pelo codigo
+        Lancamento lancamentoRetornado = repository.findById(codigo)
+                .orElseThrow(()-> new RuntimeException("Laçamento Inexistente"));
+
+        //2 - validar pessoa no lancamento
+        if (!validarPessoaNoLancamento(lancamentoRetornado)){
+            throw new RuntimeException("Pessoa no lançamento não existe ou esta ativa");       }
+
+        // Converter lançamento do parametro para o lançamento retornado
+        lancamentoRetornado.setId(codigo);
+        lancamentoRetornado.setDescricao(lancamento.getDescricao());
+        lancamentoRetornado.setDataVencimento(lancamento.getDataVencimento());
+        lancamentoRetornado.setDataPagamento(lancamento.getDataPagamento());
+        lancamentoRetornado.setValor(lancamento.getValor());
+        lancamentoRetornado.setTipoLancamento(lancamento.getTipoLancamento());
+        lancamentoRetornado.setObservacao(lancamento.getObservacao());
+        lancamentoRetornado.setPessoa(lancamento.getPessoa());
+        lancamentoRetornado.setCategoria(lancamento.getCategoria());
+
+        return repository.save(lancamentoRetornado);
+    }
+
+    private boolean validarPessoaNoLancamento(Lancamento lancamento){
+        // 1 encontrar pessoa no lancamento
+        Pessoa p = null;
+        // verificar se é não NULL e esta ATIVA
+        p = pessoaRepository.findById(lancamento.getPessoa().getCodigo()).orElse(new Pessoa());
+        if (p == null && !p.isAtivo()){
+            return false;
+        }
+
+        return true;
+    }
+
 
 }

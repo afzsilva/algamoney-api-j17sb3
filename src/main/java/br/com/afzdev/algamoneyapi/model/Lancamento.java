@@ -1,11 +1,10 @@
 package br.com.afzdev.algamoneyapi.model;
 
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +12,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 @Entity
 @Table(name = "lancamento")
